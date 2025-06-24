@@ -5,6 +5,7 @@ import { Warehouse, Store } from './warehouse';
 
 import { LuStore } from "react-icons/lu";
 import { BiSolidCarMechanic } from "react-icons/bi";
+import { MdOutlineGarage } from "react-icons/md";
 
 import {
   Collapsible,
@@ -142,10 +143,13 @@ const FloatingSupplyChainAccordion = ({
                         {warehouse.type === "warehouse" ? (
                           <FaWarehouse className="w-4 h-4 text-blue-600" />
                         ) : warehouse.type === "service" ? (
-                          <BiSolidCarMechanic className="w-4 h-4 text-orange-500" />
-                        ) : warehouse.type === "store" ? (
-                          <LuStore className="w-4 h-4 text-green-600" />
-                        ) : null}
+                          <img
+                            src="./mover-truck.png"
+                            alt="Garage"
+                            className="w-4 h-4"
+                          />) : warehouse.type === "store" ? (
+                            <LuStore className="w-4 h-4 text-green-600" />
+                          ) : null}
 
 
                         <div>

@@ -3,6 +3,8 @@ import React from 'react';
 import InventoryTable from '@/components/inventory/InventoryTable';
 import MetricsCard from '@/components/dashboard/MetricsCard';
 import { Package, AlertTriangle, TrendingUp, DollarSign } from 'lucide-react';
+import { MdCurrencyRupee } from "react-icons/md";
+
 
 const Inventory = () => {
   const userRole = 'oem_planner' as const;
@@ -29,7 +31,7 @@ const Inventory = () => {
               title="Total Stock Value"
               value="₹12.4L"
               subtitle="Across all locations"
-              icon={DollarSign}
+              icon={MdCurrencyRupee}
               trend={{ value: 3.2, isPositive: true }}
             />
             <MetricsCard

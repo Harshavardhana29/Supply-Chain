@@ -90,16 +90,6 @@ const Index = () => {
             <div className="flex items-center space-x-3">
               <h1 className="text-sm font-bold text-foreground">Warehouses</h1>
             </div>
-
-            <div className="flex items-center space-x-2 border-l border-muted pl-4">
-              <Checkbox
-                id="show-speed"
-                className='text-gray-700'
-                checked={showInventoryStatus}
-                onCheckedChange={handleSpeedToggle}
-              />
-              <FaExclamationTriangle className="w-4 h-4 text-gray-600" />
-            </div>
           </div>
         </div>
       </div>

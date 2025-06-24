@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Map, Marker } from 'react-map-gl/maplibre';
 import maplibregl from 'maplibre-gl';
 import { Warehouse, Store } from './warehouse';
@@ -8,7 +8,6 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { FaWarehouse } from 'react-icons/fa';
 import { LuStore } from 'react-icons/lu';
-import { BiSolidCarMechanic } from 'react-icons/bi';
 
 interface MapProps {
   warehouses: Warehouse[];
@@ -29,44 +28,27 @@ const SupplyChainMap = ({
 }: MapProps) => {
   const mapRef = useRef<maplibregl.Map | null>(null);
 
-  useEffect(() => {
-    if (!mapRef.current || warehouses.length === 0) return;
-
-    const bounds = new maplibregl.LngLatBounds();
-
-    warehouses.forEach((warehouse) => {
-      bounds.extend([
-        warehouse.location.coordinates.longitude,
-        warehouse.location.coordinates.latitude,
-      ]);
-
-      warehouse.stores.forEach((store) => {
-        if (store.coordinates) {
-          bounds.extend([store.coordinates.longitude, store.coordinates.latitude]);
-        }
-      });
-    });
-
-    mapRef.current.fitBounds(bounds, {
-      padding: 100,
-      maxZoom: 8,
-      duration: 1000,
-    });
-  }, [warehouses]);
-
   const renderIcon = (type: string, isSelected: boolean) => {
     const base = `w-5 h-5 drop-shadow-md`;
-    const iconColor = isSelected ? 'text-white' : type === 'warehouse'
-      ? 'text-blue-600'
-      : type === 'service'
-      ? 'text-orange-500'
-      : 'text-green-600';
+    const iconColor = isSelected
+      ? 'text-white'
+      : type === 'warehouse'
+        ? 'text-blue-600'
+        : type === 'service'
+          ? 'text-orange-400'
+          : 'text-green-600';
 
     switch (type) {
       case 'warehouse':
         return <FaWarehouse className={`${base} ${iconColor}`} />;
       case 'service':
-        return <BiSolidCarMechanic className={`${base} ${iconColor}`} />;
+        return (
+          <img
+            src="./mover-truck.png"
+            alt="Service"
+            className={`${base} ${iconColor}`}
+          />
+        );
       case 'store':
         return <LuStore className={`${base} ${iconColor}`} />;
       default:
@@ -79,7 +61,7 @@ const SupplyChainMap = ({
       case 'warehouse':
         return 'bg-blue-600';
       case 'service':
-        return 'bg-orange-500';
+        return 'bg-orange-400';
       case 'store':
         return 'bg-green-600';
       default:
@@ -94,9 +76,9 @@ const SupplyChainMap = ({
           if (ref) mapRef.current = ref.getMap();
         }}
         initialViewState={{
-          longitude: 72.8777,
-          latitude: 19.076,
-          zoom: 6,
+          longitude: 82.8, // Center of India
+          latitude: 22.5,
+          zoom: 4.2,       // Zoomed out to show full India
         }}
         mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
         style={{ width: '100%', height: '100%' }}
@@ -119,9 +101,8 @@ const SupplyChainMap = ({
             >
               <div
                 onClick={() => onWarehouseSelect(warehouse)}
-                className={`p-1 rounded-full cursor-pointer shadow-md ${bgColor} ${
-                  isSelected ? 'z-50' : 'z-10'
-                }`}
+                className={`p-1 rounded-full cursor-pointer shadow-md ${bgColor} ${isSelected ? 'z-50' : 'z-10'
+                  }`}
               >
                 {renderIcon(warehouse.type || 'warehouse', isSelected)}
               </div>
@@ -144,9 +125,8 @@ const SupplyChainMap = ({
               >
                 <div
                   onClick={() => onStoreSelect(store, warehouse)}
-                  className={`p-1 rounded-full cursor-pointer shadow-md ${bgColor} ${
-                    isSelected ? 'z-50' : 'z-10'
-                  }`}
+                  className={`p-1 rounded-full cursor-pointer shadow-md ${bgColor} ${isSelected ? 'z-50' : 'z-10'
+                    }`}
                 >
                   {renderIcon(store.type || 'store', isSelected)}
                 </div>

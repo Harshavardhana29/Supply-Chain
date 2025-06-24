@@ -9,6 +9,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { FaWarehouse } from "react-icons/fa";
 import Link from 'next/link'
+import { LuStore } from 'react-icons/lu';
+import { MdOutlineGarage } from "react-icons/md"
 
 interface WarehouseInfoPanelProps {
     warehouse?: Warehouse;
@@ -41,6 +43,18 @@ const WarehouseInfoPanel = ({ warehouse, store, onClose }: WarehouseInfoPanelPro
                 return 'text-muted-foreground bg-muted border-border';
         }
     };
+
+    const InfoRow = ({ label, value, icon }: { label: string; value: ReactNode; icon?: ReactNode }) => (
+        <div className="flex items-start space-x-2">
+            {icon && <div className="mt-1 text-primary">{icon}</div>}
+            <div>
+                <p className="text-muted-foreground text-sm font-medium">{label}</p>
+                {/* Render value directly, it can be string or JSX */}
+                <div className="text-foreground font-semibold break-all">{value}</div>
+            </div>
+        </div>
+    );
+
 
     const currentEntity = store || warehouse;
     const isStore = !!store;
@@ -83,10 +97,19 @@ const WarehouseInfoPanel = ({ warehouse, store, onClose }: WarehouseInfoPanelPro
                 </div>
                 <div className="flex items-center">
                     {isStore ? (
-                        <MapPin className="w-8 h-8 text-green-500" />
+                        <LuStore className="w-8 h-8 text-green-600" />
+                    ) : warehouse?.type === 'warehouse' ? (
+                        <FaWarehouse className="w-8 h-8 text-blue-600" />
+                    ) : warehouse?.type === 'service' ? (
+                        <img
+                            src="/mover-truck.png"
+                            alt="Garage"
+                            className="w-8 h-8"
+                        />
                     ) : (
-                        <FaWarehouse className="w-8 h-8 text-blue-500" />
+                        <LuStore className="w-8 h-8 text-gray-500 text-green-600" />
                     )}
+
                 </div>
                 <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors p-1">
                     <X className="w-5 h-5" />
@@ -166,19 +189,38 @@ const WarehouseInfoPanel = ({ warehouse, store, onClose }: WarehouseInfoPanelPro
                                     <InfoRow label="Manager ID" value={warehouse!.warehouseManager.id} icon={<FileText className="w-4 h-4 text-sky-500" />} />
                                     <InfoRow label="Manager Phone" value={warehouse!.warehouseManager.contact} icon={<Phone className="w-4 h-4 text-green-500" />} />
                                     <InfoRow
-                                        label={
-                                            warehouse!.type === 'warehouse'
-                                                ? 'Warehouse Contact'
-                                                : warehouse!.type === 'service'
-                                                    ? 'Service Center Contact'
-                                                    : 'Store Contact'
-                                        }
-                                        icon={<Phone className="w-4 h-4 text-orange-500" />}
                                         value={
-                                            <>
-                                                <span>{warehouse!.contact.phone}</span>
-                                                <span className="mt-1 text-purple-700 truncate">{warehouse!.contact.email}</span>
-                                            </>
+                                            <div className="flex flex-col space-y-1">
+                                                {/* Phone Number Line (Now placed first) */}
+                                                <div className="flex items-center gap-2 mt-3 text-sm text-foreground">
+                                                    <Phone className="w-4 h-4 text-orange-500" />
+                                                    <div className="flex flex-col leading-tight">
+                                                        <span className="text-md text-muted-foreground">
+                                                            {warehouse!.type === 'warehouse'
+                                                                ? 'Warehouse Phone:'
+                                                                : warehouse!.type === 'service'
+                                                                    ? 'Service Center Phone:'
+                                                                    : 'Store Phone:'}
+                                                        </span>
+                                                        <span className="truncate">{warehouse!.contact.phone}</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Email Line (Now placed second) */}
+                                                <div className="flex items-center gap-2 mt-4 text-sm text-foreground">
+                                                    <Mail className="w-4 h-4 text-blue-600" />
+                                                    <div className="flex flex-col leading-tight">
+                                                        <span className="text-md text-muted-foreground">
+                                                            {warehouse!.type === 'warehouse'
+                                                                ? 'Warehouse Email:'
+                                                                : warehouse!.type === 'service'
+                                                                    ? 'Service Center Email:'
+                                                                    : 'Store Email:'}
+                                                        </span>
+                                                        <span className="truncate">{warehouse!.contact.email}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         }
                                     />
 

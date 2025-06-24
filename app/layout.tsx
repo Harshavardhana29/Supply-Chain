@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Driver Analytics",
+  title: "Supply Chain Management",
   description: "Powered by Greywiz",
 };
 

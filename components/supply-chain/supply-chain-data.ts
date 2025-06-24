@@ -4,7 +4,7 @@ export const supplyChainData: SupplyChainData = {
   "oem": "Global Auto Parts Distributors",
   "warehouses": [
     {
-      "warehouseName": "Mumbai Central Warehouse",
+      "warehouseName": "South Regional Warehouse",
       "type": "warehouse",
       "warehouseId": "WH-MUM-001",
       "location": {
@@ -445,7 +445,7 @@ export const supplyChainData: SupplyChainData = {
       ]
     },
     {
-      "warehouseName": "Delhi Regional Warehouse",
+      "warehouseName": "North Regional Warehouse",
       "warehouseId": "WH-DEL-002",
       "type": "warehouse",
       "location": {
